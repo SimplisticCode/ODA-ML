@@ -1,8 +1,8 @@
-from sklearn import decomposition
-from sklearn.metrics import accuracy_score
+from sklearn.decomposition import PCA
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.neighbors import NearestCentroid
 from sklearn.preprocessing import StandardScaler
-
+import numpy as np
 from MNIST.loadImages import loadMNISTImages, loadMNISTLabels
 from kNearestNeighbor import kNearestNeighbor
 
@@ -24,6 +24,16 @@ print('x_test shape:', x_test.shape)
 print(x_train.shape[0], 'train samples')
 print(x_test.shape[0], 'test samples')
 
+from sklearn.neural_network import MLPClassifier
+mlp = MLPClassifier(hidden_layer_sizes=(13,13,13),max_iter=500)
+
+#mlp.fit(x_train,y_train)
+#predictions = mlp.predict(x_test)
+
+#print(confusion_matrix(y_test,predictions))
+#print(classification_report(y_test,predictions))
+
+
 
 scaler = StandardScaler()
 
@@ -33,16 +43,17 @@ x_test = scaler.transform(x_test)
 x_train = scaler.transform(x_train)
 
 # Make an instance of the Model
-pca = decomposition.PCA(.95)
+pca = PCA(n_components=40)
 
 # apply PCA inorder to get fewer dimensions to work with
 x_train_pca = pca.fit_transform(x_train)
 x_test_pca = pca.fit_transform(x_test)
 
+#KNearestNeighbor
 # making our predictions
 predictions = []
 
-kNearestNeighbor(x_train[:5000], y_train[:5000], x_test[:1000], predictions, 1)
+kNearestNeighbor(x_train_pca[:5000], y_train[:5000], x_test_pca[:1000], predictions, 1)
 
 # transform the list into an array
 predictions = np.asarray(predictions)
