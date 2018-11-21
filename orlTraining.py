@@ -1,11 +1,12 @@
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-from sklearn.neighbors import NearestCentroid
 from sklearn.preprocessing import StandardScaler
 # import matplotlib.pyplot as plt
 import time
 
+from NearestCentroid import NearestCentroid
+from NearestSubclassCentroid import NearestSubclassCentroid
 from ORL.loadORL import loadORL
 from kNearestNeighbor import kNearestNeighbor
 
@@ -31,7 +32,7 @@ print(confusion_matrix(y_test, predictions))
 print(classification_report(y_test, predictions))
 
 # Make an instance of the Model
-pca = PCA(n_components=40)
+pca = PCA(n_components=2)
 
 # apply PCA inorder to get fewer dimensions to work with
 x_train_pca = pca.fit_transform(x_train)
@@ -42,19 +43,50 @@ predictions = []
 # plt.scatter(x_train, y_train)
 
 #KNearestNeighbor
-kNearestNeighbor(x_train, y_train, x_test, predictions, 3)
+#kNearestNeighbor(x_train, y_train, x_test, predictions, 3)
 
 # transform the list into an array
 predictions = np.asarray(predictions)
 
 # evaluating accuracy
-accuracy = accuracy_score(y_test, predictions)
-print('The accuracy of our KNearestNeighbor classifier is ' + str(accuracy * 100))
+#accuracy = accuracy_score(y_test, predictions)
+#print('The accuracy of our KNearestNeighbor classifier is ' + str(accuracy * 100))
 
 
 # NearestCentroid
+# Normal data
 ncc = NearestCentroid()
 ncc.fit(x_train, y_train)
 # get the model accuracy
-modelscore = ncc.score(x_test, y_test)
-print('The accuracy of our NearestCentroid classifier is ' + str(modelscore * 100))
+predictions = ncc.predict(x_test)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our NearestCentroid classifier is ' + str(accuracy * 100))
+
+# 2d data
+ncc1 = NearestCentroid()
+ncc1.fit(x_train_pca, y_train)
+# get the model accuracy
+predictions = ncc1.predict(x_test_pca)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our NearestCentroid classifier is ' + str(accuracy * 100))
+
+# Nearest subclass classifier (2 subclasses):
+nsc = NearestSubclassCentroid()
+nsc.fit(x_train, y_train, 2)
+predictions = nsc.predict(x_test)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our NearestSubclassCentroid classifier is ' + str(accuracy * 100))
+
+# Nearest subclass classifier (3 subclasses):
+nsc3 = NearestSubclassCentroid()
+nsc3.fit(x_train, y_train, 3)
+predictions = nsc3.predict(x_test)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our NearestSubclassCentroid classifier is ' + str(accuracy * 100))
+
+# Nearest subclass classifier (5 subclasses):
+nsc5 = NearestSubclassCentroid()
+nsc5.fit(x_train, y_train, 5)
+predictions = nsc5.predict(x_test)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our NearestSubclassCentroid classifier is ' + str(accuracy * 100))
