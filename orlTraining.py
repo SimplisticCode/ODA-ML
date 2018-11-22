@@ -8,6 +8,7 @@ import time
 from NearestCentroid import NearestCentroid
 from NearestSubclassCentroid import NearestSubclassCentroid
 from ORL.loadORL import loadORL
+from Perceptron_multiclass_lms import Perceptron_multiclass_lms
 from kNearestNeighbor import kNearestNeighbor
 
 # load in data
@@ -20,16 +21,6 @@ scaler = StandardScaler()
 scaler.fit(x_test)
 x_test = scaler.transform(x_test)
 x_train = scaler.transform(x_train)
-
-from sklearn.neural_network import MLPClassifier
-
-mlp = MLPClassifier(hidden_layer_sizes=(13, 13, 13), max_iter=10000)
-
-mlp.fit(x_train, y_train)
-predictions = mlp.predict(x_test)
-
-print(confusion_matrix(y_test, predictions))
-print(classification_report(y_test, predictions))
 
 # Make an instance of the Model
 pca = PCA(n_components=2)
@@ -52,6 +43,12 @@ predictions = np.asarray(predictions)
 #accuracy = accuracy_score(y_test, predictions)
 #print('The accuracy of our KNearestNeighbor classifier is ' + str(accuracy * 100))
 
+# Perceptron Multiclass Least Mean Square
+perc_lms = Perceptron_multiclass_lms();
+perc_lms.train(x_train, y_train)
+predictions = perc_lms.predict(x_test)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our Perceptron Multiclass Least Mean Square classifier is ' + str(accuracy * 100))
 
 # NearestCentroid
 # Normal data
