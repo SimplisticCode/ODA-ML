@@ -27,17 +27,6 @@ print('x_test shape:', x_test.shape)
 print(x_train.shape[0], 'train samples')
 print(x_test.shape[0], 'test samples')
 
-from sklearn.neural_network import MLPClassifier
-mlp = MLPClassifier(hidden_layer_sizes=(13,13,13),max_iter=500)
-
-#mlp.fit(x_train,y_train)
-#predictions = mlp.predict(x_test)
-
-#print(confusion_matrix(y_test,predictions))
-#print(classification_report(y_test,predictions))
-
-
-
 scaler = StandardScaler()
 
 # Standardizing the features
