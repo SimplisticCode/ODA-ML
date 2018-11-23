@@ -8,6 +8,7 @@ import time
 from NearestCentroid import NearestCentroid
 from NearestSubclassCentroid import NearestSubclassCentroid
 from ORL.loadORL import loadORL
+from Perceptron_multiclass_backpropagation import Perceptron_multiclass_backpropagation
 from Perceptron_multiclass_lms import Perceptron_multiclass_lms
 from kNearestNeighbor import kNearestNeighbor
 
@@ -46,6 +47,15 @@ predictions = np.asarray(predictions)
 # Perceptron Multiclass Least Mean Square
 perc_lms = Perceptron_multiclass_lms();
 perc_lms.train(x_train, y_train)
+predictions = perc_lms.predict(x_test)
+accuracy = accuracy_score(y_test, predictions)
+print('The accuracy of our Perceptron Multiclass Least Mean Square classifier is ' + str(accuracy * 100))
+
+
+
+# Perceptron Multiclass Least Mean Square
+perc_pro = Perceptron_multiclass_backpropagation();
+perc_pro.train(x_train, y_train)
 predictions = perc_lms.predict(x_test)
 accuracy = accuracy_score(y_test, predictions)
 print('The accuracy of our Perceptron Multiclass Least Mean Square classifier is ' + str(accuracy * 100))

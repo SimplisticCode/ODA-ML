@@ -14,8 +14,8 @@ def loadORL(files, randomSeed=None):
 
     # split the sample to a training set and a test set
     if randomSeed is not None:
-        x_train, x_test, y_train, y_test = train_test_split(images_array, labels_array, test_size=0.3, random_state=randomSeed)
+        x_train, x_test, y_train, y_test = train_test_split(images_array, labels_array, stratify=labels_array, test_size=0.3, random_state=randomSeed)
     else:
-        x_train, x_test, y_train, y_test = train_test_split(images_array, labels_array, test_size=0.3)
+        x_train, x_test, y_train, y_test = train_test_split(images_array, labels_array, stratify=labels_array, test_size=0.3)
     return x_train, x_test, y_train, y_test
 
